@@ -1,0 +1,313 @@
+# 🎓 Student Productivity & Burnout Prediction
+
+An interactive **Data Science and Machine Learning** project that predicts a student's estimated burnout level based on daily habits and lifestyle factors.
+
+The project combines a trained machine learning model with an interactive **Streamlit dashboard** where users can enter information about their sleep, deadlines, screen time, exercise, caffeine intake, and part-time work to receive a predicted burnout score.
+
+> **Note:** This project is intended for educational and exploratory purposes. The prediction is not a medical or psychological diagnosis.
+
+## 📊 Project Overview
+
+Student productivity can be influenced by many factors, including workload, sleep, physical activity, screen time, and other daily habits.
+
+This project explores whether these factors can be used to estimate a student's **burnout level** using a machine learning model.
+
+The application provides an interactive interface where users can enter their daily habits and receive:
+
+* A predicted burnout score from **0–100**
+* A visual burnout gauge
+* A habit profile visualization
+* Automatic insights based on the entered habits
+
+## 🎯 Objectives
+
+The main objectives of this project are to:
+
+1. Explore factors associated with student burnout.
+2. Build a machine learning model for predicting burnout levels.
+3. Apply feature scaling before making predictions.
+4. Create an interactive prediction interface using Streamlit.
+5. Visualize prediction results using Plotly.
+6. Provide simple, interpretable insights based on user input.
+
+## 🛠️ Technologies
+
+* **Python**
+* **Pandas** — Data manipulation and input preparation
+* **NumPy** — Numerical processing
+* **Scikit-learn** — Machine learning and feature scaling
+* **Joblib** — Saving and loading the trained model and scaler
+* **Plotly** — Interactive data visualization
+* **Streamlit** — Interactive web application
+
+## 🧠 Machine Learning Pipeline
+
+The application uses two serialized objects:
+
+```text
+burnout_model.pkl
+scaler.pkl
+```
+
+The prediction pipeline works as follows:
+
+```text
+User Input
+    ↓
+Input DataFrame
+    ↓
+Feature Scaling
+    ↓
+Trained ML Model
+    ↓
+Predicted Burnout Score
+    ↓
+Visualization & Interpretation
+```
+
+Before the model makes a prediction, the user's input is transformed using the previously fitted scaler.
+
+```python
+input_scaled = scaler.transform(input_data)
+prediction = model.predict(input_scaled)
+```
+
+The resulting prediction is displayed as a score between **0 and 100**.
+
+## 📋 Input Features
+
+The application uses six input variables:
+
+| Feature              | Description                             |
+| -------------------- | --------------------------------------- |
+| `upcoming_deadline`  | Number of upcoming deadlines            |
+| `sleep_hours`        | Hours of sleep                          |
+| `part_time_job`      | Whether the student has a part-time job |
+| `screen_time_hours`  | Daily screen time in hours              |
+| `exercise_minutes`   | Daily exercise duration                 |
+| `caffeine_intake_mg` | Estimated daily caffeine intake         |
+
+### Feature Ranges
+
+The Streamlit interface provides the following ranges:
+
+* Upcoming Deadlines: **0–10**
+* Sleep Hours: **0–12 hours**
+* Part-Time Job: **Yes / No**
+* Screen Time: **0–15 hours**
+* Exercise: **0–180 minutes**
+* Caffeine Intake: **0–600 mg**
+
+## 📈 Application Features
+
+### 1. Burnout Prediction
+
+Users enter their daily habits and click **Analyze Burnout**.
+
+The trained model then generates an estimated burnout score.
+
+Example:
+
+```text
+Predicted Burnout Level
+42.35 / 100
+```
+
+### 2. Burnout Gauge
+
+The prediction is visualized using an interactive Plotly gauge.
+
+The application divides the score into three levels:
+
+|  Score | Interpretation |
+| -----: | -------------- |
+|   0–29 | Low Burnout    |
+|  30–59 | Medium Burnout |
+| 60–100 | High Burnout   |
+
+These categories are used only as simple visualization thresholds within the application.
+
+### 3. Habit Profile
+
+A radar chart visualizes the user's entered habits across:
+
+* Deadlines
+* Sleep
+* Screen Time
+* Exercise
+* Caffeine
+
+The visualization provides a quick overview of the input profile.
+
+### 4. Smart Insights
+
+The application generates simple rule-based observations based on the user's inputs.
+
+For example:
+
+* Lower sleep duration may indicate a need for more rest.
+* Low exercise levels may suggest increasing physical activity.
+* A high number of upcoming deadlines indicates increased workload pressure.
+* High caffeine intake may indicate increased reliance on stimulants.
+
+These insights are generated using predefined rules and are **separate from the machine learning prediction**.
+
+## 🔍 Prediction vs. Insights
+
+An important aspect of the application is that it uses two different mechanisms.
+
+### Machine Learning Prediction
+
+The burnout score is generated by the trained model:
+
+```text
+Input Features
+      ↓
+Scaler
+      ↓
+Machine Learning Model
+      ↓
+Burnout Score
+```
+
+### Rule-Based Insights
+
+The additional recommendations are generated using predefined conditions:
+
+```text
+Sleep < 8
+      → Suggest more sleep
+
+Exercise < 30
+      → Suggest more physical activity
+
+Deadlines > 6
+      → Detect high deadline pressure
+
+Caffeine > 300 mg
+      → Flag high caffeine intake
+```
+
+This separation allows the application to provide both a model-based prediction and easily understandable observations.
+
+## 📁 Project Structure
+
+```text
+Student-Productivity/
+│
+├── app.py
+├── burnout_model.pkl
+├── scaler.pkl
+├── dataset.csv
+├── requirements.txt
+└── README.md
+```
+
+> File names may differ depending on the final repository structure.
+
+## 🚀 Running the Project Locally
+
+### 1. Clone the repository
+
+```bash
+git clone <repository-url>
+cd Student-Productivity
+```
+
+### 2. Create a virtual environment
+
+```bash
+python -m venv venv
+```
+
+On Windows:
+
+```bash
+venv\Scripts\activate
+```
+
+On macOS/Linux:
+
+```bash
+source venv/bin/activate
+```
+
+### 3. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+The main dependencies are:
+
+```text
+streamlit
+numpy
+pandas
+scikit-learn
+joblib
+plotly
+```
+
+### 4. Run the Streamlit application
+
+```bash
+streamlit run app.py
+```
+
+The application will open in your browser.
+
+## 📚 What I Learned
+
+This project provided practical experience with:
+
+* Preparing data for machine learning
+* Feature scaling
+* Loading trained machine learning models
+* Using Joblib to serialize ML models
+* Creating prediction pipelines
+* Building interactive ML applications with Streamlit
+* Creating interactive Plotly visualizations
+* Designing user-friendly prediction interfaces
+* Combining machine learning predictions with rule-based insights
+* Communicating ML results through visualizations
+
+## 🔮 Future Improvements
+
+Potential improvements include:
+
+* Add exploratory data analysis to the application.
+* Display feature importance from the trained model.
+* Compare multiple machine learning algorithms.
+* Add model performance metrics such as MAE, RMSE, and R².
+* Add cross-validation during model development.
+* Improve the burnout scoring methodology.
+* Add historical prediction tracking.
+* Allow users to download their analysis.
+* Add more student-related features.
+* Deploy the application for public access.
+
+## ⚠️ Disclaimer
+
+This project is an **educational machine learning application** and should not be used as a medical, psychological, or clinical assessment tool.
+
+The predicted burnout score depends on the dataset and machine learning model used during development. It does not establish whether a person is actually experiencing burnout.
+
+## 📌 Project Status
+
+**Completed — Interactive Machine Learning Dashboard**
+
+The current version provides an interactive burnout prediction interface using a pre-trained machine learning model and Streamlit.
+
+## 👤 Author
+
+**Muhammad Rizky**
+
+Computer Science Student
+Universitas Mercu Buana
+
+---
+
+### ⭐ Project Focus
+
+**Data Science · Machine Learning · Predictive Modeling · Streamlit · Plotly · Python**
